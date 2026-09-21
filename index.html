@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#12372a" />
+  <meta name="description" content="CRM comercial dos programas de Letramento em IA da iProcesso" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>CRM Letramento | iProcesso</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">iP</div>
+      <div><strong>CRM Letramento</strong><span>iProcesso · Inteligência comercial</span></div>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost" id="syncBtn" type="button">↻ Sincronizar</button>
+      <button class="btn primary" id="newBtn" type="button">＋ Nova oportunidade</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">VISÃO EXECUTIVA</p>
+        <h1>Oportunidades do mês</h1>
+        <p id="periodLabel">Acompanhe o funil, participantes, receita e próximas ações.</p>
+      </div>
+      <div class="status-pill" id="connectionStatus">Modo local</div>
+    </section>
+
+    <section class="filters card" aria-label="Filtros do CRM">
+      <label>Mês<select id="monthFilter"></select></label>
+      <label>Responsável<select id="ownerFilter"><option value="">Todos</option></select></label>
+      <label>Oferta / evento<select id="eventFilter"><option value="">Todos</option></select></label>
+      <label>Etapa<select id="stageFilter"><option value="">Todas</option></select></label>
+      <label class="search">Buscar<input id="searchFilter" type="search" placeholder="Empresa, contato ou ação" /></label>
+    </section>
+
+    <section class="kpis" id="kpis"></section>
+
+    <section class="split">
+      <article class="card panel">
+        <div class="panel-head"><div><p class="eyebrow">FUNIL</p><h2>Por etapa</h2></div></div>
+        <div id="funnel" class="funnel"></div>
+      </article>
+      <article class="card panel">
+        <div class="panel-head"><div><p class="eyebrow">ATENÇÃO</p><h2>Próximas ações</h2></div></div>
+        <div id="nextActions" class="action-list"></div>
+      </article>
+    </section>
+
+    <section class="card panel">
+      <div class="panel-head">
+        <div><p class="eyebrow">EVENTOS E OFERTAS</p><h2>Previsão x confirmação</h2></div>
+      </div>
+      <div id="eventsSummary" class="events-grid"></div>
+    </section>
+
+    <section class="card panel opportunities-panel">
+      <div class="panel-head">
+        <div><p class="eyebrow">PIPELINE</p><h2>Oportunidades</h2></div>
+        <div class="row-actions">
+          <span id="resultCount" class="muted"></span>
+          <button class="btn ghost" id="exportBtn" type="button">Exportar CSV</button>
+          <button class="btn ghost" id="settingsBtn" type="button">Configurar</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Empresa</th><th>Oferta / evento</th><th>Responsável</th><th>Etapa</th><th>Pessoas</th><th>Valor</th><th>Próxima ação</th><th></th></tr></thead>
+          <tbody id="opportunitiesTable"></tbody>
+        </table>
+      </div>
+      <div id="opportunitiesCards" class="mobile-cards"></div>
+    </section>
+  </main>
+
+  <dialog id="opportunityDialog">
+    <form method="dialog" id="opportunityForm">
+      <div class="dialog-head"><div><p class="eyebrow">CADASTRO</p><h2 id="dialogTitle">Nova oportunidade</h2></div><button class="icon-btn" value="cancel" aria-label="Fechar">×</button></div>
+      <input type="hidden" name="id" />
+      <div class="form-grid">
+        <label>Empresa *<input name="empresa" required /></label>
+        <label>Contato<input name="contato" /></label>
+        <label>E-mail<input name="email" type="email" /></label>
+        <label>Telefone / WhatsApp<input name="telefone" /></label>
+        <label>Oferta *<select name="oferta" required></select></label>
+        <label>Evento / turma<input name="evento" placeholder="Ex.: Letramento #4" /></label>
+        <label>Responsável *<input name="responsavel" required /></label>
+        <label>Etapa *<select name="etapa" required></select></label>
+        <label>Pessoas previstas<input name="pessoasPrevistas" type="number" min="0" value="0" /></label>
+        <label>Pessoas confirmadas<input name="pessoasConfirmadas" type="number" min="0" value="0" /></label>
+        <label>Valor total (R$)<input name="valorTotal" type="number" min="0" step="0.01" value="0" /></label>
+        <label>Probabilidade (%)<input name="probabilidade" type="number" min="0" max="100" value="20" /></label>
+        <label>Mês previsto<input name="mesPrevisto" type="month" /></label>
+        <label>Data da próxima ação<input name="dataProximaAcao" type="date" /></label>
+        <label class="span-2">Próxima ação<input name="proximaAcao" placeholder="Ex.: Confirmar participantes e enviar proposta" /></label>
+        <label>Origem<input name="origem" placeholder="Indicação, evento, parceiro..." /></label>
+        <label>Último contato<input name="ultimoContato" type="date" /></label>
+        <label class="span-2">Observações<textarea name="observacoes" rows="3"></textarea></label>
+      </div>
+      <div class="dialog-actions"><button class="btn danger hidden" id="deleteBtn" type="button">Excluir</button><span></span><button class="btn ghost" value="cancel">Cancelar</button><button class="btn primary" id="saveBtn" type="submit" value="default">Salvar</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" id="settingsForm">
+      <div class="dialog-head"><div><p class="eyebrow">INTEGRAÇÃO</p><h2>Google Sheets</h2></div><button class="icon-btn" value="cancel" aria-label="Fechar">×</button></div>
+      <p class="muted">Informe a URL do Web App criado pelo Google Apps Script. A chave fica apenas nesta sessão do navegador.</p>
+      <label>URL do Web App<input name="apiUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec" /></label>
+      <label>Chave de acesso<input name="apiKey" type="password" autocomplete="off" placeholder="Chave definida nas propriedades do script" /></label>
+      <div class="dialog-actions"><span></span><button class="btn ghost" value="cancel">Cancelar</button><button class="btn primary" type="submit" value="default">Salvar e sincronizar</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
