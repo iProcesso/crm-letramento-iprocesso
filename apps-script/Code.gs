@@ -1,6 +1,6 @@
 const TAB = 'Oportunidades';
 const AUDIT_TAB = 'Historico';
-const HEADERS = ['id','empresa','contato','email','telefone','oferta','evento','responsavel','etapa','pessoasPrevistas','pessoasConfirmadas','valorTotal','probabilidade','mesPrevisto','proximaAcao','dataProximaAcao','ultimoContato','origem','observacoes','createdAt','updatedAt','createdBy','updatedBy'];
+const HEADERS = ['id','empresa','contato','email','telefone','oferta','evento','responsavel','etapa','temperatura','pessoasPrevistas','pessoasConfirmadas','valorTotal','probabilidade','mesPrevisto','proximaAcao','dataProximaAcao','ultimoContato','origem','observacoes','createdAt','updatedAt','createdBy','updatedBy'];
 const AUDIT_HEADERS = ['timestamp','usuario','acao','oportunidadeId','detalhes'];
 
 function doGet() {
@@ -125,6 +125,7 @@ function validate_(o) {
   ['id','empresa','oferta','responsavel','etapa'].forEach(k => { if (!o[k]) throw new Error('Campo obrigatório: ' + k); });
   const allowed = ['Lead','Contato iniciado','Diagnóstico','Proposta enviada','Negociação','Confirmada','Perdida'];
   if (!allowed.includes(o.etapa)) throw new Error('Etapa inválida.');
+  if (o.temperatura && !['Quente','Morno','Frio'].includes(o.temperatura)) throw new Error('Temperatura inválida.');
 }
 
 function serialize_(v) {
