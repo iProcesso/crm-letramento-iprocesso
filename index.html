@@ -17,6 +17,7 @@
       <div><strong>CRM Letramento</strong><span>iProcesso · Inteligência comercial</span></div>
     </div>
     <div class="top-actions">
+      <div id="googleSignIn" class="google-signin"></div>
       <button class="btn ghost" id="syncBtn" type="button">↻ Sincronizar</button>
       <button class="btn primary" id="newBtn" type="button">＋ Nova oportunidade</button>
     </div>
@@ -110,14 +111,17 @@
   <dialog id="settingsDialog">
     <form method="dialog" id="settingsForm">
       <div class="dialog-head"><div><p class="eyebrow">INTEGRAÇÃO</p><h2>Google Sheets</h2></div><button class="icon-btn" value="cancel" aria-label="Fechar">×</button></div>
-      <p class="muted">Informe a URL do Web App criado pelo Google Apps Script. A chave fica apenas nesta sessão do navegador.</p>
+      <p class="muted">Use login Google no ambiente operacional. A opção por chave fica disponível somente para testes controlados.</p>
+      <label>Modo de acesso<select name="accessMode"><option value="google">Google — operacional seguro</option><option value="key">Chave — piloto controlado</option></select></label>
       <label>URL do Web App<input name="apiUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec" /></label>
-      <label>Chave de acesso<input name="apiKey" type="password" autocomplete="off" placeholder="Chave definida nas propriedades do script" /></label>
+      <label>Google OAuth Client ID<input name="googleClientId" autocomplete="off" placeholder="000000000000-xxxx.apps.googleusercontent.com" /></label>
+      <label>Chave de acesso para piloto<input name="apiKey" type="password" autocomplete="off" placeholder="Usar somente no modo Chave" /></label>
       <div class="dialog-actions"><span></span><button class="btn ghost" value="cancel">Cancelar</button><button class="btn primary" type="submit" value="default">Salvar e sincronizar</button></div>
     </form>
   </dialog>
 
   <div id="toast" class="toast" role="status"></div>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="app.js"></script>
 </body>
 </html>
