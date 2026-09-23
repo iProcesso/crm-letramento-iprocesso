@@ -39,6 +39,11 @@
       <label>Oferta / evento<select id="eventFilter"><option value="">Todos</option></select></label>
       <label>Etapa<select id="stageFilter"><option value="">Todas</option></select></label>
       <label class="search">Buscar<input id="searchFilter" type="search" placeholder="Empresa, contato ou ação" /></label>
+      <div class="quick-filters span-all">
+        <div><span class="filter-title">Produtos</span><div id="productChips" class="chips"></div></div>
+        <div><span class="filter-title">Período</span><div id="monthChips" class="chips"></div></div>
+        <div><span class="filter-title">Temperatura</span><div id="temperatureChips" class="chips"></div></div>
+      </div>
     </section>
 
     <section class="kpis" id="kpis"></section>
@@ -66,6 +71,10 @@
         <div><p class="eyebrow">PIPELINE</p><h2>Oportunidades</h2></div>
         <div class="row-actions">
           <span id="resultCount" class="muted"></span>
+          <div class="view-switch" role="group" aria-label="Escolha da visualização">
+            <button class="view-btn active" id="listViewBtn" type="button" aria-pressed="true">☷ Lista</button>
+            <button class="view-btn" id="kanbanViewBtn" type="button" aria-pressed="false">▦ Kanban</button>
+          </div>
           <button class="btn ghost" id="exportBtn" type="button">Exportar CSV</button>
           <button class="btn ghost" id="settingsBtn" type="button">Configurar</button>
         </div>
@@ -77,6 +86,7 @@
         </table>
       </div>
       <div id="opportunitiesCards" class="mobile-cards"></div>
+      <div id="kanbanBoard" class="kanban-board hidden" aria-label="Kanban de oportunidades"></div>
     </section>
   </main>
 
@@ -97,6 +107,7 @@
         <label>Pessoas confirmadas<input name="pessoasConfirmadas" type="number" min="0" value="0" /></label>
         <label>Valor total (R$)<input name="valorTotal" type="number" min="0" step="0.01" value="0" /></label>
         <label>Probabilidade (%)<input name="probabilidade" type="number" min="0" max="100" value="20" /></label>
+        <label>Temperatura<select name="temperatura"><option value="Quente">🔥 Quente</option><option value="Morno">☀️ Morno</option><option value="Frio">❄️ Frio</option></select></label>
         <label>Mês previsto<input name="mesPrevisto" type="month" /></label>
         <label>Data da próxima ação<input name="dataProximaAcao" type="date" /></label>
         <label class="span-2">Próxima ação<input name="proximaAcao" placeholder="Ex.: Confirmar participantes e enviar proposta" /></label>
