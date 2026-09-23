@@ -14,6 +14,8 @@ CRM comercial leve e responsivo para acompanhar oportunidades, eventos, particip
 - funcionamento local/offline como PWA;
 - exportação CSV;
 - integração CRUD com Google Sheets por Google Apps Script;
+- autenticação operacional por conta Google autorizada;
+- trilha de auditoria de inclusões, alterações e exclusões;
 - prompt pronto para um Projeto GPT atuar como diretor comercial.
 
 ## Modelo de dados
@@ -30,20 +32,22 @@ python3 -m http.server 8080
 
 Abra `http://localhost:8080`.
 
-## Integração com Google Sheets
+## Piloto público
+
+O piloto usa somente dados fictícios e está disponível no GitHub Pages. Não cadastre dados reais enquanto o login Google e o backend seguro não estiverem configurados.
+
+## Integração operacional com Google Sheets
 
 1. Abra a planilha oficial no Google Sheets.
 2. Acesse Extensões → Apps Script.
 3. Cole o conteúdo de `apps-script/Code.gs`.
-4. Em Configurações do projeto → Propriedades do script, crie:
-   - `SPREADSHEET_ID`: ID da planilha.
-   - `CRM_API_KEY`: uma chave longa e exclusiva.
+4. Siga o guia `SETUP_OPERACIONAL_SEGURO.md` para configurar OAuth, usuários autorizados e propriedades do script.
 5. Execute `setupCrm` uma vez e autorize o script.
 6. Implante como Aplicativo da Web, executando como o proprietário.
 7. Restrinja o acesso conforme a política da iProcesso. Não publique uma planilha com dados comerciais sem controle de acesso.
 8. No CRM, abra **Configurar**, informe a URL do Web App e a chave.
 
-A chave é mantida somente em `sessionStorage` e precisa ser informada novamente em uma nova sessão. Para uma operação maior, substitua a chave compartilhada por autenticação individual e trilha de auditoria.
+O modo por chave continua disponível somente para testes controlados. O ambiente operacional deve usar login Google individual e lista de e-mails autorizados.
 
 ## Projeto GPT
 
